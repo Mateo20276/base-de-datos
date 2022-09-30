@@ -9,7 +9,7 @@ Type
     proces= Array [1..100] of proceso;
     list= Array [1..100] of Double;
 
-    function sumar(arreg: proces; auxi: Integer): Integer;
+    function sumar(arreg: proces; auxi: Integer): Integer; // sumo los procesos
     var sum: Integer;
          i: Integer;
     begin
@@ -20,82 +20,54 @@ Type
         sumar:= sum
     end;
 
-    function sumar1(arreg: list; auxi: Integer): Double;
-    var sum: Double;
-         i: Integer;
-    begin
-        sum:= 0;
-        for i:= 1 to auxi do begin
-            sum:= sum + arreg[I];  
-        end;
-        sumar1:= sum
-    end;
-
 const Q= 4;
       Ti= 1;
 var nom: String;
-    tiemp: Integer;
-    aux: Integer;
-    aux1: Double;
+    tiemp,aux,sumapros: Integer;
+    aux1,Reloj,TRetorno: Double;
     i: Integer;
-    Pant: proceso;
-    Reloj: Double;
     procesos: proces;
-    lista: list;
-    TRetorno: Double;
-    TEsperaaux: Double;
 
 begin
     Writeln('Escriba cuantos procesos desea agregar');
     Readln(nom);
     aux:= StrToInt(nom);
-    Pant.PID:= 'null';
-    Pant.TS:= 0;
     Reloj:= 0;
+    sumapros:= 0;
 
-    for i:= 1 to aux do begin
+    for i:= 1 to aux do begin                   //cargo los procesos
         Writeln('Escriba el nombre del procesos a agregar');
         readln(nom);
         Writeln('Escriba el tiempo requerido del proceso');
         readln(tiemp);
         procesos[i].PID:= nom;
         procesos[i].TS:= tiemp;
+        sumapros:= sumapros + tiemp;
     end;
-    TEsperaaux:= sumar(procesos,aux);
     TRetorno:= 0;
     readln(nom);
 
-    while sumar(procesos,aux) > 0 do
+    while sumar(procesos,aux) > 0 do    //ejecuto el robin
       begin      
         for i := 1 to aux do 
         begin                  
             if procesos[i].TS > Q then
             begin
-(*                if procesos[i].PID <> Pant.pid then 
-                begin
-                    Reloj:= Reloj + Ti/2; 
-                    writeln('lo sbe1')                    
-                end;*)
                 procesos[i].TS:= procesos[i].TS - Q;
                 Reloj:= Reloj + Q;
             end
            else if procesos[i].TS > 0 then begin
-(*               if procesos[i].PID <> Pant.pid then begin
-                    Reloj:= Reloj + Ti/2;   
-                    writeln('lo sbe2')                        
-                end; *)
                 Reloj:= Reloj + procesos[i].TS;
                 procesos[i].TS:= 0;
-                lista[i]:= Reloj;
+                TRetorno:= TRetorno + Reloj;
             end;                                                     
         end;   
     end;
-    TRetorno:= sumar1(lista,aux);
     aux1:= aux;
     write('El Tiempo de retorno fue de:');
     writeln((TRetorno / aux1):0:2);
     write('El Tiempo de espera fue de:');
-    writeln(((TRetorno - TEsperaaux) / aux1):0:2);
+    writeln(((TRetorno - sumapros) / aux1):0:2);
     readln(nom);
 
 end.
