@@ -94,5 +94,4 @@ writeln('tiempo de retorno: ', ((tiemporetorno/aux)):0:2);
 writeln('tiempo de espera: ', ((tiemporetorno - te)/aux):0:2);
 readln(nom);
 
-
 end.

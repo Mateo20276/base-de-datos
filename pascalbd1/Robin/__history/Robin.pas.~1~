@@ -7,6 +7,7 @@ Type
         TS: Integer;
     end;
     proces= Array [1..100] of proceso;
+    list= Array [1..100] of Double;
 
     function sumar(arreg: proces; auxi: Integer): Integer; // sumo los procesos
     var sum: Integer;
@@ -33,7 +34,6 @@ begin
     aux:= StrToInt(nom);
     Reloj:= 0;
     sumapros:= 0;
-    TRetorno:= 0;
 
     for i:= 1 to aux do begin                   //cargo los procesos
         Writeln('Escriba el nombre del procesos a agregar');
@@ -44,7 +44,8 @@ begin
         procesos[i].TS:= tiemp;
         sumapros:= sumapros + tiemp;
     end;
-
+    TRetorno:= 0;
+    readln(nom);
 
     while sumar(procesos,aux) > 0 do    //ejecuto el robin
       begin      
@@ -55,7 +56,7 @@ begin
                 procesos[i].TS:= procesos[i].TS - Q;
                 Reloj:= Reloj + Q;
             end
-            else if procesos[i].TS > 0 then begin
+           else if procesos[i].TS > 0 then begin
                 Reloj:= Reloj + procesos[i].TS;
                 procesos[i].TS:= 0;
                 TRetorno:= TRetorno + Reloj;
